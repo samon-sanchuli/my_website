@@ -53,10 +53,10 @@ params:
         url: https://www.instagram.com
       - icon: fa-github
         label: GitHub
-        url: https://www.github.com
+        url: https://github.com/samon-sanchuli/my_website
       - icon: fa-linkedin
         label: LinkedIn
-        url: https://www.linkedin.com
+        url: hhttps://www.linkedin.com/in/samon-sanchuli/
   image: ''
   name: Your name
   navigation:
@@ -82,8 +82,8 @@ params:
     enable: yes
     showcase:
       - image: pic01.jpg
-        subtitle: Ipsum Dolor Sit Amet
-        title: Aliquam
+        subtitle: My most recent CV
+        title: Resume
         url: blogs/aliquam
       - image: pic02.jpg
         subtitle: Feugiat Amet Tempus
