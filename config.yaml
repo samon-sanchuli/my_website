@@ -80,7 +80,7 @@ params:
   tiles:
     enable: yes
     showcase:
-      - image: resume_picture.jpeg
+      - image: resume_picture.jpg
         subtitle: My most recent CV
         title: Resume
         url: blogs/aliquam
