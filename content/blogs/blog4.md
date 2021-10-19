@@ -3,10 +3,10 @@ categories:
 - ""
 - ""
 date: "2017-10-31T22:42:51-05:00"
-description: Please find attached my latest CV
+description: Please find my latest CV below
 draft: false
-image: pic07.jpg
+image: samon_sanchuli_cv.pdf
 keywords: ""
 slug: aliquam
-title: Aliquam
+title: Resume
 ---
