@@ -8,8 +8,7 @@ params:
   banner:
     buttonText: Get Started
     subtitle: |-
-      A RESPONSIVE SITE TEMPLATE DESIGNED BY HTML5 UP
-      AND RELEASED UNDER THE CREATIVE COMMONS.
+      THIS IS MY PERSONAL WEBSITE WHERE I WILL BE PUBLISHING MY CODING PROJECTS
     title: Samon Sanchuli
   blog: {}
   contact:
@@ -56,7 +55,7 @@ params:
         url: https://github.com/samon-sanchuli/my_website
       - icon: fa-linkedin
         label: LinkedIn
-        url: hhttps://www.linkedin.com/in/samon-sanchuli/
+        url: https://www.linkedin.com/in/samon-sanchuli/
   image: ''
   name: Your name
   navigation:
@@ -81,7 +80,7 @@ params:
   tiles:
     enable: yes
     showcase:
-      - image: pic01.jpg
+      - image: resume_picture.jpeg
         subtitle: My most recent CV
         title: Resume
         url: blogs/aliquam
