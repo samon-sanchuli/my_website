@@ -51,6 +51,12 @@ To test these hypotheses, I adopt an interaction-term-based statistical specific
 
 ![Model](/Users/samonsanchuli/Documents/LBS Studies/Data Analytics/my_website/static/img/blogs/dissertation_forlmula.png)
 
+```{r}
+knitr::include_graphics("/Users/samonsanchuli/Documents/LBS Studies/Data Analytics/my_website/static/img/blogs/dissertation_forlmula.png")
+```
+
+
+
 where 
 
 𝑖 indicates a country, 
@@ -75,6 +81,10 @@ World Bank estimates for the income share of the poorest 20% of the population a
 To measure the rates of human capital accumulation, this study uses data on the percentage of people within the relevant age group who are enrolled in tertiary education (UNESCO 2019). Since most of the countries provide free and compulsory secondary education, it is reasonable to suggest that capital market imperfections are going to mostly affect higher education attainment. Furthermore, theoretically, credit constraints coupled with indivisibility of the investment in education would have immediate effect on the individual’s ability to enrol. For these reasons, the yearly enrolment rate is a more precise indicator than the traditionally used ‘mean years of schooling’ from Barro and Lee (2013). Nevertheless, I use the latter for a robustness check.
 
 # Results
+
+```{r}
+knitr::include_graphics("/Users/samonsanchuli/Documents/LBS Studies/Data Analytics/my_website/static/img/blogs/dissertation_results.png")
+```
 
 ![Results](/Users/samonsanchuli/Documents/LBS Studies/Data Analytics/my_website/static/img/blogs/dissertation_results.png)
 
