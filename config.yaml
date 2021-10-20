@@ -88,7 +88,7 @@ params:
         subtitle: This is the first R project that I undertook
         title: First R Project
         url: blogs/first_project
-      - image: pic03.jpg
+      - image: tfl_bikes.jpg
         subtitle: This project investigates patterns behind TFL bike rentals
         title: Bike Rentals Project
         url: blogs/bike_challenge
@@ -96,10 +96,10 @@ params:
         subtitle: Inequality and Human Capital Accumulation
         title: Undergraduate Dissertation 
         url: blogs/dissertation
-      - image: pic05.jpg
-        subtitle: Ipsum Dolor Sit Amet
-        title: Consequat
-        url: blogs/ipsum
+      - image: 
+        subtitle: This project investigates the determinants of Airbnb prices in Shanghai
+        title: Shanghai Airbnb Project
+        url: blogs/airbnb
       - image: pic06.jpg
         subtitle: Feugiat Amet Tempus
         title: Etiam

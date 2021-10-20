@@ -1,0 +1,408 @@
+---
+categories:  
+- ""    #the front matter should be like the one found in, e.g., blog2.md. It cannot be like the normal Rmd we used
+- ""
+date: "2021-09-30"
+description: This project investingates price determinants for the Airbnb flats in Shanghai
+draft: false
+image: airbnb.jpeg 
+keywords: ""
+slug: airbnb
+title: Shanghai Airbnb Project
+---
+
+```{r setup, include=FALSE}
+# leave this chunk alone
+options(knitr.table.format = "html") 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
+  comment = NA, dpi = 300)
+```
+
+
+```{r load-libraries, echo=FALSE}
+
+library(tidyverse) # the usual stuff: dplyr, readr, and other goodies
+library(lubridate) # to handle dates
+library(GGally) # for correlation-scatter plot matrix
+library(ggfortify) # to produce residual diagnostic plots
+library(rsample) # to split dataframe in training- & testing sets
+library(janitor) # clean_names()
+library(broom) # use broom:augment() to get tidy table with regression output, residuals, etc
+library(huxtable) # to get summary table of all models produced
+library(kableExtra) # for formatting tables
+library(moderndive) # for getting regression tables
+library(skimr) # for skim
+library(mosaic)
+library(leaflet) # for interactive HTML maps
+library(tidytext)
+library(viridis)
+library(vroom)
+library(car)
+```
+
+
+
+```{r load_data, echo=FALSE, message=FALSE, warning=FALSE, cache=TRUE}
+
+# use cache=TRUE so you dont donwload the data everytime you knit
+
+listings <- vroom("http://data.insideairbnb.com/china/shanghai/shanghai/2021-09-28/data/listings.csv.gz") %>% 
+       clean_names()
+
+```
+
+
+
+# Exploratory Data Analysis (EDA)
+## Exploring Raw Values
+
+```{r}
+
+#glimpse function allowed us to see all the variables in the dataset and their types. We noticed that some numeric variables were categorised as character variables, e.g., price
+glimpse(listings) 
+
+#This function gave us an insignt into the missing values and summary statistics for each variable 
+skim(listings) 
+
+
+# This function allows to convert character type data into a numeric. We do this for price
+listings <- listings %>% 
+  mutate(price = parse_number(price))
+
+# We check if the conversion was successful
+typeof(listings$price)
+
+# We noriced that the bathroom variable is mostly text, hence we convert it to a numeric using parse function
+listings <- listings %>% 
+  mutate(bathrooms = parse_number(bathrooms_text))
+favstats(listings$bathrooms)
+
+
+
+```
+
+
+
+## Propery types
+
+
+Next, we look at the variable `property_type`. We can use the `count` function to determine how many categories there are their frequency. What are the top 4 most common property types? What proportion of the total listings do they make up? 
+
+```{r}
+
+property_type_by_proportion <- listings %>% 
+  count(property_type) %>% 
+  arrange(desc(n)) %>% 
+  mutate(proportion = n/sum(n)*100)
+
+property_type_by_proportion
+
+```
+
+
+Since the vast majority of the observations in the data are one of the top four or five property types, we would like to create a simplified version of `property_type` variable that has 5 categories: the top four categories and `Other`. Fill in the code below to create `prop_type_simplified`.
+
+```{r}
+
+listings <- listings %>%
+  mutate(prop_type_simplified = case_when(
+    property_type %in% c("Entire rental unit","Private room in villa", "Entire residential home","Entire villa") ~ property_type, 
+    TRUE ~ "Other"
+  ))
+
+listings %>%
+  count(property_type, prop_type_simplified) %>%
+  arrange(desc(n)) 
+
+```
+
+
+```{r}
+
+#this function allows us to get an insight into max, min, mean, meadian values
+favstats(listings$minimum_nights) 
+
+#this chunk of code builds a density chart for the values and gives an idea of where the most common value is
+
+listings %>% 
+  ggplot(aes(x=minimum_nights))+
+  geom_density()+
+  NULL 
+
+#this chunk of code allows to break down each minimum night value by frequency
+listings %>% 
+  count(minimum_nights) %>% 
+  arrange(desc(n))
+
+# this code filters out all long term listings
+short_term_listings <- listings %>% 
+  filter(minimum_nights <=4)
+```
+
+
+Airbnb is most commonly used for travel purposes, i.e., as an alternative to traditional hotels. We only want to include  listings in our regression analysis that are intended for travel purposes:
+
+- What are the  most common values for the variable `minimum_nights`? 
+
+**The most common value is 1 night**
+
+- Is ther any value among the common values that stands out?
+
+**The value that stands out is the biggest value in this collumn - 1000. We also notices that some values are 365 and 180 days** 
+
+
+- What is the likely intended purpose for Airbnb listings with this seemingly unusual value for `minimum_nights`?
+
+**We believe that the reason for the 1000 night value is to prevent AirBnb user from booking the room throuhg the AirBnb system. In order to book a room, the user will have to contact the host directly. This is beneficial to the host because he/she bypasses the AirBnb commission**
+
+**When it comes to 365 and 180 values, these indicate that the host is looking for a long term renter**
+
+Filter the airbnb data so that it only includes observations with `minimum_nights <= 4`
+
+# Mapping 
+
+Visualisations of feature distributions and their relations are key to understanding a data set, and they can open up new lines of exploration. While we do not have time to go into all the wonderful geospatial visualisations one can do with R, you can use the following code to start with a map of your city, and overlay all AirBnB coordinates to get an overview of the spatial distribution of AirBnB rentals. For this visualisation we use the `leaflet` package, which includes a variety of tools for interactive maps, so you can easily zoom in-out, click on a point to get the actual AirBnB listing for that specific point, etc.
+
+The following code, having downloaded a dataframe `listings` with all AirbnB listings in Milan, will plot on the map all AirBnBs where `minimum_nights` is less than equal to four (4). You could learn more about `leaflet`, by following [the relevant Datacamp course on mapping with leaflet](https://www.datacamp.com/courses/interactive-maps-with-leaflet-in-r)
+
+
+
+
+```{r, out.width = '80%'}
+
+leaflet(data = filter(listings, minimum_nights <= 4)) %>% 
+  addProviderTiles("OpenStreetMap.Mapnik") %>% 
+  addCircleMarkers(lng = ~longitude, 
+                   lat = ~latitude, 
+                   radius = 1, 
+                   fillColor = "blue", 
+                   fillOpacity = 0.4, 
+                   popup = ~listing_url,
+                   label = ~property_type)
+```
+
+    
+# Regression Analysis
+
+For the target variable $Y$, we will use the cost for two people to stay at an Airbnb location for four (4) nights. 
+
+Create a new variable called `price_4_nights` that uses `price`, and `accomodates` to calculate the total cost for two people to stay at the Airbnb property for 4 nights. This is the variable $Y$ we want to explain.
+
+Use histograms or density plots to examine the distributions of `price_4_nights` and `log(price_4_nights)`. Which variable should you use for the regression model? Why?
+
+**For the regression model we should use log of price_4_nights variable, because it is normally distribution.** - spend some time on this
+
+Fit a regression model called `model1` with the following explanatory variables: `prop_type_simplified`, `number_of_reviews`, and `review_scores_rating`. 
+
+- Interpret the coefficient `review_scores_rating` in terms of `price_4_nights`.
+
+**The coefficient for the review_scores_rating suggests that the higher are the ratings, the pricier is the apartment** - go back to this
+
+
+- Interpret the coefficient of `prop_type_simplified` in terms of `price_4_nights`.
+
+**Coefficients for the property_type_simplified suggests that the property type has a statistically significant effect on the price. In particular, if the property type is Entire Villa or Other, it tends to be more expensive**
+
+We want to determine if `room_type` is a significant predictor of the cost for 4 nights, given everything else in the model. Fit a regression model called model2 that includes all of the explananatory variables in `model1` plus `room_type`. 
+
+**The model 2 shows that the room type is a significant predictor for the price. More specifically, private and shared rooms are less expensive**
+
+
+```{r}
+
+
+# This code builds a dataset that only contains accommodations that can host two people and creates a variable for the 4-nights-stay price. It also creates a variable that is a log10 of the price for 4 nigths
+
+short_term_listings_for_2 <- short_term_listings %>% 
+  filter(accommodates ==2) %>% 
+  mutate(price_4_nights = price*4) %>% 
+  mutate(log_price_4_nights = log(price_4_nights,10))
+  
+  # This code builds a histogram for the room price for 4 nights per 2 people in Shanghai.
+  short_term_listings_for_2 %>% 
+  ggplot(aes(x=log_price_4_nights)) +
+  geom_histogram()+
+  NULL
+  
+#This bit of code builds a regression model - model1
+
+model1 <- lm(log_price_4_nights ~ prop_type_simplified + review_scores_rating + number_of_reviews, data=  short_term_listings_for_2)
+  
+summary(model1)
+
+
+#This code gives an insight into the room_type variable
+
+unique(short_term_listings_for_2$room_type)
+
+
+#This code builds a model that includes the room type
+
+model2 <- lm(log_price_4_nights ~ prop_type_simplified + review_scores_rating + number_of_reviews + room_type, data=  short_term_listings_for_2)
+  
+summary(model2)
+  
+  
+
+```
+
+
+
+## Further variables/questions to explore on our own
+
+Our dataset has many more variables, so here are some ideas on how you can extend yskimour analysis
+
+1. Are the number of `bathrooms`, `bedrooms`, `beds`, or size of the house (`accomodates`) significant predictors of `price_4_nights`? Or might these be co-linear variables?
+
+```{r}
+
+# We create a dataset that contains flats with all accommodation capacities and generate a price for 4 nights variable. We also convert bathroom_text into a numeric variable
+short_term_listings <- short_term_listings %>% 
+  mutate(price_4_nights = price*4) %>% 
+  mutate(log_price_4_nights = log(price_4_nights,10)) %>% 
+  mutate(bathrooms_text = parse_number(bathrooms_text))
+
+
+# We create a model that tests the effect of barhrooms, bedrooms and beds
+model3 <- lm(log_price_4_nights ~ bathrooms + bedrooms + beds, data= short_term_listings)
+summary(model3)
+
+#We check for collinearity using a diagnostics test
+vif(model3)
+
+# produce scatterplot-correlation matrix between all explanatory variables
+short_term_listings %>%
+  select(c(bedrooms, bathrooms, beds)) %>%
+  ggpairs(alpha = 0.3) 
+
+```
+
+1. Do superhosts `(host_is_superhost`) command a pricing premium, after controlling for other variables?
+
+```{r}
+
+model_Superhost <- lm(log_price_4_nights ~ room_type + review_scores_rating + beds + host_is_superhost, data= short_term_listings)
+
+summary(model_Superhost)
+
+```
+
+
+
+1. Some hosts allow you to immediately book their listing (`instant_bookable == TRUE`), while a non-trivial proportion don't. After controlling for other variables, is `instant_bookable` a significant predictor of `price_4_nights`?
+
+```{r}
+
+# exploring raw materials and summary statistics for instant bookable
+skim(short_term_listings$instant_bookable)
+
+# regression model fitting
+model_instant <- lm(log_price_4_nights ~ room_type+review_scores_rating + beds + host_is_superhost + instant_bookable, data=short_term_listings)
+summary(model_instant)
+
+# check for collinearity using a diagnostics test
+vif(model_instant)
+
+```
+
+
+
+1. For all cities, there are 3 variables that relate to neighbourhoods: `neighbourhood`, `neighbourhood_cleansed`, and `neighbourhood_group_cleansed`. There are typically more than 20 neighbourhoods in each city, and it wouldn't make sense to include them all in your model. Use your city knowledge, or ask someone with city knowledge, and see whether you can group neighbourhoods together so the majority of listings falls in fewer (5-6 max) geographical areas. You would thus need to create a new categorical variabale `neighbourhood_simplified` and determine whether location is a predictor of `price_4_nights`
+
+```{r}
+
+#For Shanghai, we notice that the data in "neighbourhood" only consists "Shanghai, China" and "NA" while the data in "neighbourhood_group_cleansed" only consists "NA". "Neighbourhood_cleansed" represents different districts in Shanghai. There are altogether 16 districts in Shanghai, so we group different districts based on their distance from the city center and establish a scoring system. Intuitively, we would expect apartments that are in urban areas would have a higher price. For example, Huangpu and Jing'an are the districts nearest to the city center so they score 5.
+
+#Huangpu, Jing'an - tier 1 districts (city center), score 5
+#Changning, Xuhui, Yangpu, Hongkou, Putuo - tier 2 districts (urban area), score 4
+#Pudong - tier 3 districts (Pudong is a large district, half in urban area, half on the outskirt), score 3
+#Baoshan, Jiading, Minhang, Songjiang, Qingpu, Fengxian, Jinshan -tier 4 districts (outskirt of Shanghai), score 2
+#Chongming - tier 5 districts (island in Shanghai), score 1
+
+listings_neighbourhood <- short_term_listings %>%
+  mutate(neighbourhood_simplified = 
+          case_when(neighbourhood_cleansed %in% c("黄浦区 / Huangpu District", "静安区 / Jing'an District")~ 1,
+                    neighbourhood_cleansed %in% c("长宁区 / Changning District", "徐汇区 / Xuhui District", "杨浦区 / Yangpu District", "虹口区 / Hongkou District","普陀区 / Putuo District")~2,
+                    neighbourhood_cleansed %in% c("浦东新区 / Pudong")~3,
+                    neighbourhood_cleansed %in% c("宝山区 / Baoshan District","嘉定区 / Jiading District","闵行区 / Minhang District","松江区 / Songjiang District","青浦区 / Qingpu District","奉贤区 / Fengxian District","金山区 / Jinshan District")~4,
+                    neighbourhood_cleansed %in% c("崇明区 / Chongming District")~5))
+
+#check if we cover all districts
+unique(listings_neighbourhood$neighbourhood_simplified) 
+
+# Neighbourhood_simplified is numeric. For the model to run correctly, it needs to be a factor variable.
+listings_neighbourhood$neighbourhood_simplified <- as.factor(listings_neighbourhood$neighbourhood_simplified)
+
+# final model
+model_neighbourhood <- lm(log_price_4_nights ~ room_type+review_scores_rating + beds + host_is_superhost + instant_bookable+neighbourhood_simplified, data=listings_neighbourhood)
+
+summary(model_neighbourhood)
+
+```
+
+
+1. What is the effect of `avalability_30` or `reviews_per_month` on `price_4_nights`, after we control for other variables?
+
+```{r}
+
+# using the data from the previous model to check if availability affects the price
+
+model_availability30 <- lm(log_price_4_nights ~ room_type+review_scores_rating + beds + host_is_superhost + instant_bookable+neighbourhood_simplified+availability_30+number_of_reviews, data=listings_neighbourhood)
+
+summary(model_availability30)
+
+```
+
+
+
+##Our Best Model
+
+```{r}
+
+huxreg(model3, model_Superhost, model_instant, model_neighbourhood, model_availability30)
+
+
+
+```
+
+
+
+
+## Diagnostics, collinearity, summary tables
+
+As you keep building your models, it makes sense to:
+
+1. Check the residuals, using `autoplot(model_x)`
+1. As you start building models with more explanatory variables, make sure you use `car::vif(model_x)`` to calculate the **Variance Inflation Factor (VIF)** for your predictors and determine whether you have colinear variables. A general guideline is that a VIF larger than 5 or 10 is large, and your model may suffer from collinearity. Remove the variable in question and run your model again without it.
+
+
+
+1. Create a summary table, using `huxtable` (https://mfa2022.netlify.app/example/modelling_side_by_side_tables/) that shows which models you worked on, which predictors are significant, the adjusted $R^2$, and the Residual Standard Error.
+
+
+```{r}
+# Create a table that shows the models produced in this analysis
+huxreg(model1, model2, model3)
+```
+
+
+1. Finally, you must use the best model you came up with for prediction. Suppose you are planning to visit the city you have been assigned to over reading week, and you want to stay in an Airbnb. Find Airbnb's in your destination city that are apartments with a private room, have at least 10 reviews, and an average rating of at least 90. Use your best model to predict the total cost to stay at this Airbnb for 4 nights. Include the appropriate 95% interval with your prediction. Report the point prediction and interval in terms of `price_4_nights`. 
+
+```{r}
+# log(price) = 3.22 - 0.19*PrivateRoom - 0.72*SharedRoom + 0.01*ReviewScoresRating + 0.08*Beds + 0.04*Superhost + 0.05*InstantBookable -0.003*NumberOfReviews
+
+# log(price) = 3.22 - 0.19*1 - 0.72*0 + 0.01*90 + 0.08*0 + 0.04*0 + 0.05*0 -0.003*10
+
+#predicted_value <- 3.22 - 0.19*1 - 0.72*0 + 0.01*90 + 0.08*0 + 0.04*0 + 0.05*0 -0.003*10
+#exp(predicted_value)
+
+applied_filter <- listings_neighbourhood %>% 
+  filter(room_type=="Private room") %>% 
+  filter(number_of_reviews>=10) %>% 
+  filter(review_scores_rating>=4.5)
+
+dataframe <- predict(model_availability30, applied_filter)
+
+10^dataframe
+
+```
