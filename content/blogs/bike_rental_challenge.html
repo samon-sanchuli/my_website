@@ -5,7 +5,7 @@ categories:
 date: "2021-09-30"
 description: This paper investigates the relationship between inequality, credit markets and human capital accumulation. The theory suggests that inequality negatively impacts educational attainment through imperfect credit markets. Based on a panel analysis of 217 countries for the years 1965-2019, this study finds evidence in support of this theory.
 draft: false
-image: tfl_bike.jpeg
+image: tfl_bikes.jpg
 keywords: ""
 slug: bike_challenge
 title: Patters in TFL Bike Rentals
@@ -99,102 +99,4 @@ bike &lt;- bike0 %&gt;%
 <li><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="uri">https://ggplot2.tidyverse.org/reference/geom_tile.html</a></li>
 <li><a href="https://ggplot2.tidyverse.org/reference/geom_rug.html" class="uri">https://ggplot2.tidyverse.org/reference/geom_rug.html</a></li>
 </ul>
-</div>
-<div id="challenge-2-how-has-the-cpi-and-its-components-changed-over-the-last-few-years" class="section level1">
-<h1>Challenge 2: How has the CPI and its components changed over the last few years?</h1>
-<p>Remember how we used the tidyqant package to download CPI data. In this exercise, I would like you to do the following:</p>
-<ol style="list-style-type: decimal">
-<li>You can find <a href="https://fredaccount.stlouisfed.org/public/datalist/843">CPI components at FRED</a>. You should adapt the code from German polls to scrape the FRED website and pull all of the CPI components into a vector. FIY, the list of components is the second table in that webpage.</li>
-</ol>
-<pre class="r"><code>url &lt;- &quot;https://fredaccount.stlouisfed.org/public/datalist/843&quot;
-
-# get tables that exist on the FRED website
-tables &lt;- url %&gt;% 
-  read_html() %&gt;% 
-  html_nodes(css=&quot;table&quot;)
-
-
-# parse HTML tables into a dataframe called polls 
-# Use purr::map() to create a list of all tables in URL
-CPI_data &lt;- map(tables, . %&gt;% 
-             html_table(fill=TRUE)%&gt;% 
-             janitor::clean_names())</code></pre>
-<pre class="r"><code>CPI_series &lt;- CPI_data[[2]] %&gt;% # the second table on the page contains the list of all CPI components
-  select(series_id)
-
-CPI_series_vector&lt;- as.vector(t(CPI_series)) #pull CPI components into a vector
-  
-CPI &lt;- tidyquant::tq_get(CPI_series_vector, get = &quot;economic.data&quot;, from =  &quot;2000-01-01&quot;)
-
-CPI &lt;- left_join(CPI, CPI_data[[2]],
-                     by = c(&quot;symbol&quot; = &quot;series_id&quot;))</code></pre>
-<pre class="r"><code>CPI &lt;- CPI %&gt;%
-  group_by(title) %&gt;% 
-  mutate(year_change = price/lag(price, 12, na.rm = TRUE) - 1, date)
-            
-CPI &lt;- CPI %&gt;%         
-  mutate(title = str_remove_all(title, &quot;Consumer Price Index for All Urban Consumers: &quot;)) %&gt;% 
-  mutate(title = str_remove_all(title, &quot; in U.S. City Average&quot;)) %&gt;% #remove redundant title
-  group_by(date) %&gt;%
-  arrange(date, desc(year_change))</code></pre>
-<pre class="r"><code>CPI_graph1 &lt;- CPI %&gt;% 
-  filter(date &gt;= &quot;2016-01-01&quot;) %&gt;% 
-  ggplot(aes(x = date, y = year_change)) +
-  geom_point(aes(color = year_change &lt; 0)) +
-  geom_smooth(colour = &quot;grey&quot;, na.rm = TRUE) + #colour the points according to whether yearly change was positive or negative
-  facet_wrap(~title, scales = &quot;free&quot;) + 
-  scale_y_continuous(labels=scales::percent) +
-  labs(title=&quot;Yearly change of US CPI (All Items) and its components&quot;, 
-       subtitle=&quot;YoY change being positive or negative \nJan 2016 to Aug 2021&quot;,
-       x=&quot;&quot;,
-       y=&quot;YoY % Change&quot;,
-       caption = &quot;Data from St. Louis Fed FRED \nhttps://fredaccount.stlouisfed.org/public/datalist/843&quot;
-       ) +
-  theme_bw() +
-  theme(legend.position = &quot;none&quot;)
-
-CPI_graph1</code></pre>
-<p><img src="/blogs/bike_rental_challenge_files/figure-html/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /></p>
-<p>This graphs is fine, but perhaps has too many sub-categories. You can find the <a href="https://www.bls.gov/cpi/tables/relative-importance/2020.htm">relative importance of components in the Consumer Price Indexes: U.S. city average, December 2020</a> here. Can you choose a smaller subset of the components you have and only list the major categories (Housing, Transportation, Food and beverages, Medical care, Education and communication, Recreation, and Apparel), sorted according to their relative importance?</p>
-<pre class="r"><code>CPI_graph2 &lt;- CPI %&gt;% 
-  filter(date &gt;= &quot;2016-01-01&quot;) %&gt;% 
-  filter( title ==c(&quot;Housing&quot;, &quot;Transportation&quot;, &quot;Food and Beverages&quot;, &quot;Apparel&quot;) ) %&gt;% #only keep major categories
-  ggplot(aes(x = date, y = year_change)) +
-  geom_point(aes(color = year_change &lt; 0)) +
-  geom_smooth(colour = &quot;grey&quot;, na.rm = TRUE) + #colour the points according to whether yearly change was positive or negative
-  facet_wrap(~title, scales = &quot;free&quot;) + 
-  scale_y_continuous(labels=scales::percent) +
-  labs(title=&quot;Yearly change of US CPI (major categories)&quot;, 
-       subtitle=&quot;YoY change being positive or negative \nJan 2016 to Aug 2021&quot;,
-       x=&quot;&quot;,
-       y=&quot;YoY % Change&quot;,
-       caption = &quot;Data from St. Louis Fed FRED \nhttps://fredaccount.stlouisfed.org/public/datalist/843&quot;
-       ) +
-  theme_bw() +
-  theme(legend.position = &quot;none&quot;)
-
-CPI_graph2</code></pre>
-<p><img src="/blogs/bike_rental_challenge_files/figure-html/unnamed-chunk-7-1.png" width="648" style="display: block; margin: auto;" /></p>
-</div>
-<div id="deliverables" class="section level1">
-<h1>Deliverables</h1>
-<p>As usual, there is a lot of explanatory text, comments, etc. You do not need these, so delete them and produce a stand-alone document that you could share with someone. Knit the edited and completed R Markdown file as an HTML document (use the “Knit” button at the top of the script editor window) and upload it to Canvas.</p>
-</div>
-<div id="details" class="section level1">
-<h1>Details</h1>
-<ul>
-<li>Who did you collaborate with: TYPE NAMES HERE</li>
-<li>Approximately how much time did you spend on this problem set: ANSWER HERE</li>
-<li>What, if anything, gave you the most trouble: ANSWER HERE</li>
-</ul>
-<p><strong>Please seek out help when you need it,</strong> and remember the <a href="https://mam202.netlify.app/syllabus/#the-15-minute-rule" target="_blank">15-minute rule</a>. You know enough R (and have enough examples of code from class and your readings) to be able to do this. If you get stuck, ask for help from others, post a question on Slack– and remember that I am here to help too!</p>
-<blockquote>
-<p>As a true test to yourself, do you understand the code you submitted and are you able to explain it to someone else?</p>
-</blockquote>
-</div>
-<div id="rubric" class="section level1">
-<h1>Rubric</h1>
-<p>Check minus (1/5): Displays minimal effort. Doesn’t complete all components. Code is poorly written and not documented. Uses the same type of plot for each graph, or doesn’t use plots appropriate for the variables being analyzed.</p>
-<p>Check (3/5): Solid effort. Hits all the elements. No clear mistakes. Easy to follow (both the code and the output).</p>
-<p>Check plus (5/5): Finished all components of the assignment correctly and addressed both challenges. Code is well-documented (both self-documented and with additional comments as necessary). Used tidyverse, instead of base R. Graphs and tables are properly labelled. Analysis is clear and easy to follow, either because graphs are labeled clearly or you’ve written additional text to describe how you interpret the output.</p>
 </div>
