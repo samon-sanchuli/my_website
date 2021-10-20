@@ -1,0 +1,92 @@
+---
+categories:  
+- ""    #the front matter should be like the one found in, e.g., blog2.md. It cannot be like the normal Rmd we used
+- ""
+date: "2021-09-30"
+description: Consumer Price Index
+draft: false
+image: inflation.jpg
+keywords: ""
+slug: consumer # slug is the shorthand URL address... no spaces plz
+title: Consumer Price Index
+---
+
+<script src="Consumer Price Index_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="investigating-changes-in-cpi-over-the-past-few-years" class="section level1">
+<h1>Investigating changes in CPI over the past few years</h1>
+<p>Remember how we used the tidyqant package to download CPI data. In this exercise, I would like you to do the following:</p>
+<ol style="list-style-type: decimal">
+<li>You can find <a href="https://fredaccount.stlouisfed.org/public/datalist/843">CPI components at FRED</a>. You should adapt the code from German polls to scrape the FRED website and pull all of the CPI components into a vector. FIY, the list of components is the second table in that webpage.</li>
+</ol>
+<pre class="r"><code>url &lt;- &quot;https://fredaccount.stlouisfed.org/public/datalist/843&quot;
+
+# get tables that exist on the FRED website
+tables &lt;- url %&gt;% 
+  read_html() %&gt;% 
+  html_nodes(css=&quot;table&quot;)
+
+
+# parse HTML tables into a dataframe called polls 
+# Use purr::map() to create a list of all tables in URL
+CPI_data &lt;- map(tables, . %&gt;% 
+             html_table(fill=TRUE)%&gt;% 
+             janitor::clean_names())</code></pre>
+<pre class="r"><code>CPI_series &lt;- CPI_data[[2]] %&gt;% # the second table on the page contains the list of all CPI components
+  select(series_id)
+
+CPI_series_vector&lt;- as.vector(t(CPI_series)) #pull CPI components into a vector
+  
+CPI &lt;- tidyquant::tq_get(CPI_series_vector, get = &quot;economic.data&quot;, from =  &quot;2000-01-01&quot;)
+
+CPI &lt;- left_join(CPI, CPI_data[[2]],
+                     by = c(&quot;symbol&quot; = &quot;series_id&quot;))</code></pre>
+<pre class="r"><code>CPI &lt;- CPI %&gt;%
+  group_by(title) %&gt;% 
+  mutate(year_change = price/lag(price, 12, na.rm = TRUE) - 1, date)
+            
+CPI &lt;- CPI %&gt;%         
+  mutate(title = str_remove_all(title, &quot;Consumer Price Index for All Urban Consumers: &quot;)) %&gt;% 
+  mutate(title = str_remove_all(title, &quot; in U.S. City Average&quot;)) %&gt;% #remove redundant title
+  group_by(date) %&gt;%
+  arrange(date, desc(year_change))</code></pre>
+<pre class="r"><code>CPI_graph1 &lt;- CPI %&gt;% 
+  filter(date &gt;= &quot;2016-01-01&quot;) %&gt;% 
+  ggplot(aes(x = date, y = year_change)) +
+  geom_point(aes(color = year_change &lt; 0)) +
+  geom_smooth(colour = &quot;grey&quot;, na.rm = TRUE) + #colour the points according to whether yearly change was positive or negative
+  facet_wrap(~title, scales = &quot;free&quot;) + 
+  scale_y_continuous(labels=scales::percent) +
+  labs(title=&quot;Yearly change of US CPI (All Items) and its components&quot;, 
+       subtitle=&quot;YoY change being positive or negative \nJan 2016 to Aug 2021&quot;,
+       x=&quot;&quot;,
+       y=&quot;YoY % Change&quot;,
+       caption = &quot;Data from St. Louis Fed FRED \nhttps://fredaccount.stlouisfed.org/public/datalist/843&quot;
+       ) +
+  theme_bw() +
+  theme(legend.position = &quot;none&quot;)
+
+CPI_graph1</code></pre>
+<p><img src="/blogs/Consumer%20Price%20Index_files/figure-html/unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>This graphs is fine, but perhaps has too many sub-categories. You can find the <a href="https://www.bls.gov/cpi/tables/relative-importance/2020.htm">relative importance of components in the Consumer Price Indexes: U.S. city average, December 2020</a> here. Can you choose a smaller subset of the components you have and only list the major categories (Housing, Transportation, Food and beverages, Medical care, Education and communication, Recreation, and Apparel), sorted according to their relative importance?</p>
+<pre class="r"><code>CPI_graph2 &lt;- CPI %&gt;% 
+  filter(date &gt;= &quot;2016-01-01&quot;) %&gt;% 
+  filter( title ==c(&quot;Housing&quot;, &quot;Transportation&quot;, &quot;Food and Beverages&quot;, &quot;Apparel&quot;) ) %&gt;% #only keep major categories
+  ggplot(aes(x = date, y = year_change)) +
+  geom_point(aes(color = year_change &lt; 0)) +
+  geom_smooth(colour = &quot;grey&quot;, na.rm = TRUE) + #colour the points according to whether yearly change was positive or negative
+  facet_wrap(~title, scales = &quot;free&quot;) + 
+  scale_y_continuous(labels=scales::percent) +
+  labs(title=&quot;Yearly change of US CPI (major categories)&quot;, 
+       subtitle=&quot;YoY change being positive or negative \nJan 2016 to Aug 2021&quot;,
+       x=&quot;&quot;,
+       y=&quot;YoY % Change&quot;,
+       caption = &quot;Data from St. Louis Fed FRED \nhttps://fredaccount.stlouisfed.org/public/datalist/843&quot;
+       ) +
+  theme_bw() +
+  theme(legend.position = &quot;none&quot;)
+
+CPI_graph2</code></pre>
+<p><img src="/blogs/Consumer%20Price%20Index_files/figure-html/unnamed-chunk-5-1.png" width="648" style="display: block; margin: auto;" /></p>
+</div>

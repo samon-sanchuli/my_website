@@ -20,7 +20,7 @@ library(janitor)
 ```
 
 
-#My Autobiography
+# My Autobiography
 
 My name is *Samon Sanchuli* and I am from Turkmenistan. I was born on October 16th 1998 in Kazakhstan. I lived there untill I was 3 years old and them my parents moved to Turkmenistan.
 
@@ -329,8 +329,6 @@ base_plot + geom_boxplot()
 base_plot + stat_ecdf(geom = "step", pad = FALSE) +
   scale_y_continuous(labels = scales::percent)
 
-
-
 ```
 
 Which of these four graphs do you think best communicates the variability of the `incident_notional_cost` values? 
@@ -341,15 +339,3 @@ Also, can you please tell some sort of story (which animals are more expensive t
 
 **At first glance, horses seem to be the most expenisve animals to rescue, however, at closer examination it becomes clear that this is largerly driven by outliers. While it is true that median horse rescue cost is higher than that of other animals, it is usually not as high as the data mean costs suggets. Another interesting point is that the cost of resuing an aniaml does not heavily depend on the size of the animanl**
 
-
-# Submit the assignment
-
-Knit the completed R Markdown file as an HTML document (use the "Knit" button at the top of the script editor window) and upload it to Canvas.
-
-## Details
-
-If you want to, please answer the following
-
--   Who did you collaborate with: TYPE NAMES HERE
--   Approximately how much time did you spend on this problem set: ANSWER HERE
--   What, if anything, gave you the most trouble: ANSWER HERE

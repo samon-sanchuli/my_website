@@ -157,9 +157,6 @@ Visualisations of feature distributions and their relations are key to understan
 
 The following code, having downloaded a dataframe `listings` with all AirbnB listings in Milan, will plot on the map all AirBnBs where `minimum_nights` is less than equal to four (4). You could learn more about `leaflet`, by following [the relevant Datacamp course on mapping with leaflet](https://www.datacamp.com/courses/interactive-maps-with-leaflet-in-r)
 
-
-
-
 ```{r, out.width = '80%'}
 
 leaflet(data = filter(listings, minimum_nights <= 4)) %>% 
@@ -173,7 +170,6 @@ leaflet(data = filter(listings, minimum_nights <= 4)) %>%
                    label = ~property_type)
 ```
 
-    
 # Regression Analysis
 
 For the target variable $Y$, we will use the cost for two people to stay at an Airbnb location for four (4) nights. 

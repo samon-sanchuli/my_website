@@ -1,0 +1,138 @@
+---
+categories:  
+- ""    #the front matter should be like the one found in, e.g., blog2.md. It cannot be like the normal Rmd we used
+- ""
+date: "2021-09-30"
+description: Consumer Price Index
+draft: false
+image: inflation.jpg
+keywords: ""
+slug: consumer # slug is the shorthand URL address... no spaces plz
+title: Consumer Price Index
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+
+```{r load-libraries, include=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(here)
+library(skimr)
+library(janitor)
+library(httr)
+library(readxl)
+library(vroom)
+library(rvest)
+library(infer)
+```
+
+
+
+
+# Investigating changes in CPI over the past few years
+
+Remember how we used the tidyqant package to download CPI data. In this exercise, I would like you to do the following:
+
+1. You can find [CPI components at  FRED](https://fredaccount.stlouisfed.org/public/datalist/843). You should adapt the code from German polls to scrape the FRED website and pull all of the CPI components into a vector. FIY, the list of components is the second table in that webpage.
+
+```{r}
+url <- "https://fredaccount.stlouisfed.org/public/datalist/843"
+
+# get tables that exist on the FRED website
+tables <- url %>% 
+  read_html() %>% 
+  html_nodes(css="table")
+
+
+# parse HTML tables into a dataframe called polls 
+# Use purr::map() to create a list of all tables in URL
+CPI_data <- map(tables, . %>% 
+             html_table(fill=TRUE)%>% 
+             janitor::clean_names())
+```
+
+```{r}
+CPI_series <- CPI_data[[2]] %>% # the second table on the page contains the list of all CPI components
+  select(series_id)
+
+CPI_series_vector<- as.vector(t(CPI_series)) #pull CPI components into a vector
+  
+CPI <- tidyquant::tq_get(CPI_series_vector, get = "economic.data", from =  "2000-01-01")
+
+CPI <- left_join(CPI, CPI_data[[2]],
+                     by = c("symbol" = "series_id"))
+```
+
+```{r}
+CPI <- CPI %>%
+  group_by(title) %>% 
+  mutate(year_change = price/lag(price, 12, na.rm = TRUE) - 1, date)
+            
+CPI <- CPI %>%         
+  mutate(title = str_remove_all(title, "Consumer Price Index for All Urban Consumers: ")) %>% 
+  mutate(title = str_remove_all(title, " in U.S. City Average")) %>% #remove redundant title
+  group_by(date) %>%
+  arrange(date, desc(year_change))
+```
+
+  
+```{r out.width="100%"}
+CPI_graph1 <- CPI %>% 
+  filter(date >= "2016-01-01") %>% 
+  ggplot(aes(x = date, y = year_change)) +
+  geom_point(aes(color = year_change < 0)) +
+  geom_smooth(colour = "grey", na.rm = TRUE) + #colour the points according to whether yearly change was positive or negative
+  facet_wrap(~title, scales = "free") + 
+  scale_y_continuous(labels=scales::percent) +
+  labs(title="Yearly change of US CPI (All Items) and its components", 
+       subtitle="YoY change being positive or negative \nJan 2016 to Aug 2021",
+       x="",
+       y="YoY % Change",
+       caption = "Data from St. Louis Fed FRED \nhttps://fredaccount.stlouisfed.org/public/datalist/843"
+       ) +
+  theme_bw() +
+  theme(legend.position = "none")
+
+CPI_graph1
+```
+
+This graphs is fine, but perhaps has too many sub-categories. You can find the [relative importance of components in the Consumer Price Indexes: U.S. city average, December 2020](https://www.bls.gov/cpi/tables/relative-importance/2020.htm) here. Can you choose a smaller subset of the components you have and only list the major categories (Housing, Transportation, Food and beverages, Medical care, Education and communication, Recreation, and Apparel), sorted according to their relative importance?
+
+```{r}
+CPI_graph2 <- CPI %>% 
+  filter(date >= "2016-01-01") %>% 
+  filter( title ==c("Housing", "Transportation", "Food and Beverages", "Apparel") ) %>% #only keep major categories
+  ggplot(aes(x = date, y = year_change)) +
+  geom_point(aes(color = year_change < 0)) +
+  geom_smooth(colour = "grey", na.rm = TRUE) + #colour the points according to whether yearly change was positive or negative
+  facet_wrap(~title, scales = "free") + 
+  scale_y_continuous(labels=scales::percent) +
+  labs(title="Yearly change of US CPI (major categories)", 
+       subtitle="YoY change being positive or negative \nJan 2016 to Aug 2021",
+       x="",
+       y="YoY % Change",
+       caption = "Data from St. Louis Fed FRED \nhttps://fredaccount.stlouisfed.org/public/datalist/843"
+       ) +
+  theme_bw() +
+  theme(legend.position = "none")
+
+CPI_graph2
+
+```

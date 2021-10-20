@@ -101,17 +101,12 @@ params:
         title: Shanghai Airbnb Project
         url: blogs/airbnb
       - image: pic06.jpg
-        subtitle: Feugiat Amet Tempus
-        title: Etiam
-        url: blogs/ipsum
+        subtitle: Investigating Inflation
+        title: Consumer Price Index
+        url: blogs/consumer
   two:
     buttonText: Get Started
     enable: yes
-    subtitle: "Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero.
-      \n    Mauris aliquet magna magna sed nunc rhoncus pharetra. \n    Pellentesque
-      condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia
-      pellentesque lorem ipsum dolor. \n    Nullam et orci eu lorem consequat tincidunt.
-      Vivamus et sagittis libero.\n    Mauris aliquet magna magna sed nunc rhoncus
-      amet pharetra et feugiat tempus."
-    title: Massa libero
+    subtitle: "My name is Samon Sanchuli and I am a student and London Business School. My goal with this project is to build a portfolio of coding projects as well as other pieces of work. Going forward, I would like to upload progressively more complicated projects. I hope that this website will document my progress and skill development."
+    title: Short Description
     url: blogs
