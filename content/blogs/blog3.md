@@ -5,9 +5,9 @@ categories:
 date: "2017-10-31T22:26:13-05:00"
 description: This is a place holder for the description
 draft: false
-image: pic08.jpg
+image:
 keywords: ""
-slug: first_assignment
+slug: blog3
 title: First R Project
 ---
 
@@ -17,15 +17,6 @@ library(gapminder)  # gapminder dataset
 library(here)
 library(janitor)
 ```
-
-
-> Please delete all the intro text I wrote from line 22 to line 69 and start writing your short biography after this blockquote.
-
--   Headers
--   Emphasis (italics or bold)
--   Lists
--   Links
--   Embedding images
 
 #My Autobiography
 
@@ -50,9 +41,7 @@ You have seen the `gapminder` dataset that has data on life expectancy, populati
 
 ```{r}
 glimpse(gapminder)
-
 head(gapminder, 20) # look at the first 20 rows of the dataframe
-
 ```
 
 Your task is to produce two graphs of how life expectancy has changed over the years for the `country` and the `continent` you come from.

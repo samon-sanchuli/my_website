@@ -87,7 +87,7 @@ params:
       - image: pic02.jpg
         subtitle: This is the first R project that I undertook
         title: First R Project
-        url: blogs/first_assignment
+        url: blogs/first_project
       - image: pic03.jpg
         subtitle: Lorem Etiam Nullam
         title: Magna
