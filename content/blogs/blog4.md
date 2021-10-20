@@ -7,6 +7,6 @@ description: This is my latest CV
 draft: false
 image: samon_cv_high_quality.jpg
 keywords: ""
-slug: aliquam
+slug: resume
 title: Resume
 ---
