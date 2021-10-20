@@ -5,7 +5,7 @@ categories:
 date: "2021-09-30"
 description: This is my first R Project # the title that will show up once someone gets to this page
 draft: false
-image: resume_picture.jpg # save picture in \static\img\blogs. Acceptable formats= jpg, jpeg, or png . Your iPhone pics wont work
+image: first_project.jpeg # save picture in \static\img\blogs. Acceptable formats= jpg, jpeg, or png . Your iPhone pics wont work
 
 keywords: ""
 slug: first_project # slug is the shorthand URL address... no spaces plz
@@ -20,14 +20,6 @@ library(janitor)
 ```
 
 
-> Please delete all the intro text I wrote from line 22 to line 69 and start writing your short biography after this blockquote.
-
--   Headers
--   Emphasis (italics or bold)
--   Lists
--   Links
--   Embedding images
-
 #My Autobiography
 
 My name is *Samon Sanchuli* and I am from Turkmenistan. I was born on October 16th 1998 in Kazakhstan. I lived there untill I was 3 years old and them my parents moved to Turkmenistan.
@@ -37,8 +29,11 @@ Turkmenistan is a very strange place. Majority of buildings in the capital city 
 ![The City of Ashgabat](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.toursbylocals.com%2FAshgabat-Tours&psig=AOvVaw0ucjIMZ5RLS9Hp0XFRFKbz&ust=1632180407918000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCOjSj_6XjPMCFQAAAAAdAAAAABAJ)
 
 Turkmenistan is famous for 3 following things:
+
 1. [Ahal Teke Horses](https://en.wikipedia.org/wiki/Akhal-Teke)
+
 2. Turmenistani Carpets
+
 3. Alabai Sheppard Dogs
 
 I hope you found this autobiography interesting.

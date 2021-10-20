@@ -80,7 +80,7 @@ params:
   tiles:
     enable: yes
     showcase:
-      - image: resume_picture.jpgs
+      - image: resume_picture.jpg
         subtitle: My most recent CV
         title: Resume
         url: blogs/resume
@@ -92,10 +92,10 @@ params:
         subtitle: Lorem Etiam Nullam
         title: Magna
         url: blogs/magna
-      - image: pic04.jpg
-        subtitle: Nisl Sed Aliquam
-        title: Ipsum
-        url: blogs/ipsum
+      - image: Human-Capital.png
+        subtitle: Inequality and Human Capital Accumulation
+        title: Undergraduate Dissertation 
+        url: blogs/dissertation
       - image: pic05.jpg
         subtitle: Ipsum Dolor Sit Amet
         title: Consequat
