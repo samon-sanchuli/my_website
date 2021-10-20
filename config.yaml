@@ -89,9 +89,9 @@ params:
         title: First R Project
         url: blogs/first_project
       - image: pic03.jpg
-        subtitle: Lorem Etiam Nullam
-        title: Magna 
-        url: blogs/magna
+        subtitle: This project investigates patterns behind TFL bike rentals
+        title: Bike Rentals Project
+        url: blogs/bike_challenge
       - image: Human-Capital.png
         subtitle: Inequality and Human Capital Accumulation
         title: Undergraduate Dissertation 

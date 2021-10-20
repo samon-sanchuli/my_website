@@ -49,7 +49,6 @@ H3: Given a similar level of inequality, the degree of credit market imperfectio
 
 To test these hypotheses, I adopt an interaction-term-based statistical specification similar to the one proposed by Perotti (1994). The key difference is that this paper uses a country-fixed effects regression model. Such research design helps to control for unobserved country-level differences, which may affect the independent variable. This helps to minimise the possibility of omitted variable bias in the results. The exact model specification is the following:
 
-![Model](/Users/samonsanchuli/Documents/LBS Studies/Data Analytics/my_website/static/img/blogs/dissertation_forlmula.png)
 
 ```{r}
 knitr::include_graphics("/Users/samonsanchuli/Documents/LBS Studies/Data Analytics/my_website/static/img/blogs/dissertation_forlmula.png")
@@ -86,5 +85,4 @@ To measure the rates of human capital accumulation, this study uses data on the 
 knitr::include_graphics("/Users/samonsanchuli/Documents/LBS Studies/Data Analytics/my_website/static/img/blogs/dissertation_results.png")
 ```
 
-![Results](/Users/samonsanchuli/Documents/LBS Studies/Data Analytics/my_website/static/img/blogs/dissertation_results.png)
 
