@@ -77,8 +77,6 @@ listings <- listings %>%
   mutate(bathrooms = parse_number(bathrooms_text))
 favstats(listings$bathrooms)
 
-
-
 ```
 
 
@@ -95,8 +93,6 @@ property_type_by_proportion <- listings %>%
   arrange(desc(n)) %>% 
   mutate(proportion = n/sum(n)*100)
 
-property_type_by_proportion
-
 ```
 
 
@@ -109,10 +105,6 @@ listings <- listings %>%
     property_type %in% c("Entire rental unit","Private room in villa", "Entire residential home","Entire villa") ~ property_type, 
     TRUE ~ "Other"
   ))
-
-listings %>%
-  count(property_type, prop_type_simplified) %>%
-  arrange(desc(n)) 
 
 ```
 
