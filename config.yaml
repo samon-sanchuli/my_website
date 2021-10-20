@@ -90,7 +90,7 @@ params:
         url: blogs/first_project
       - image: pic03.jpg
         subtitle: Lorem Etiam Nullam
-        title: Magna
+        title: Magna 
         url: blogs/magna
       - image: Human-Capital.png
         subtitle: Inequality and Human Capital Accumulation
