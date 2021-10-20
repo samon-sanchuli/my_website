@@ -85,8 +85,8 @@ params:
         title: Resume
         url: blogs/resume
       - image: pic02.jpg
-        subtitle: Feugiat Amet Tempus
-        title: Tempus
+        subtitle: This is the first R project that I undertook
+        title: First R Project
         url: blogs/first_assignment
       - image: pic03.jpg
         subtitle: Lorem Etiam Nullam

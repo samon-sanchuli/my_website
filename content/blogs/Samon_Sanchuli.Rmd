@@ -8,7 +8,6 @@ output:
     highlight: zenburn
     toc: yes
     toc_float: yes
-    slug: first_assignment
 ---
 
 ```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
