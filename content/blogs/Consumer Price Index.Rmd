@@ -11,6 +11,11 @@ slug: consumer # slug is the shorthand URL address... no spaces plz
 title: Consumer Price Index
 ---
 
+# Summary
+
+>This project investigates the movements in the Consumer Price Index. The analysis strategy is to break down the CPI into its components and underdtand which parts contribute the most to the observed changes. The final graphs in this project clearly show that increases in the praices for apparel, food and bewarages contribute the most to the the 2021 inflation numebrs.
+
+
 ```{r, setup, include=FALSE}
 knitr::opts_chunk$set(
   message = FALSE, 

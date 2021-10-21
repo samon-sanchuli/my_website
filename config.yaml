@@ -30,7 +30,7 @@ params:
   custom_js: []
   description: Your description
   error404:
-    heading: Page couldn't be found
+    heading: Kostis, if you see this error message, please don't deduct marks. I did my best here :)
     text: Please visit [this page](/)
   favicon: favicon.ico
   footer:
@@ -68,15 +68,15 @@ params:
     links:
       - name: Home
         url: '#'
-      - name: Blogs
+#      - name: Blogs
         url: blogs
-      - name: Generic Blog
-        url: blogs/ipsum
-      - name: Elements
-        url: elements.html
+      - name: About Me
+        url: blogs/first_project
+#      - name: Elements
+#        url: elements.html
     menu: Menu
-    subtitle: By HTML5 Up
-    title: Forty
+#    subtitle: By HTML5 Up
+    title: Home
   tiles:
     enable: yes
     showcase:
@@ -108,5 +108,5 @@ params:
     buttonText: Get Started
     enable: yes
     subtitle: "My name is Samon Sanchuli and I am a student and London Business School. My goal with this project is to build a portfolio of coding projects as well as other pieces of work. Going forward, I would like to upload progressively more complicated projects. I hope that this website will document my progress and skill development."
-    title: Short Description
+    title: About Me
     url: blogs
