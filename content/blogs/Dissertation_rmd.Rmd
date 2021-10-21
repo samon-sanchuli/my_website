@@ -14,7 +14,7 @@ title: Inequality and Human Capital Accumulation
 # Abstract
 
 
-This paper investigates the relationship between inequality, credit markets and human capital accumulation. The theory suggests that inequality negatively impacts educational attainment through imperfect credit markets. Based on a panel analysis of 217 countries for the years 1965-2019, this study finds evidence in support of this theory. The study uses the income share of the poorest 20% of the population to measure economic inequality; tertiary education enrolment rates to determine human capital accumulation; and the number of days required to enforce a commercial contract as an indicator of credit market efficiency. The data shows that inefficient credit markets strengthen the negative relationship between inequality and education. This means that the inability to borrow hinders education. Another, slightly less robust finding suggests that in the presence of near-perfect credit markets, inequality has a positive effect on schooling attainment.
+>This paper investigates the relationship between inequality, credit markets and human capital accumulation. The theory suggests that inequality negatively impacts educational attainment through imperfect credit markets. Based on a panel analysis of 217 countries for the years 1965-2019, this study finds evidence in support of this theory. The study uses the income share of the poorest 20% of the population to measure economic inequality; tertiary education enrolment rates to determine human capital accumulation; and the number of days required to enforce a commercial contract as an indicator of credit market efficiency. The data shows that inefficient credit markets strengthen the negative relationship between inequality and education. This means that the inability to borrow hinders education. Another, slightly less robust finding suggests that in the presence of near-perfect credit markets, inequality has a positive effect on schooling attainment.
 
 
 # Introduction
@@ -38,13 +38,11 @@ This study finds that inefficient credit markets strengthen the negative relatio
 This paper aims to understand how inequality, combined with credit market imperfections, affects human capital accumulation. Following the Galor and Zeira (1993) model, I propose the following hypotheses:
 
 
-H1: Inefficient credit markets strengthen the negative relationship between inequality and human capital accumulation;
-
-
-H2: In the presence of similar degrees of credit market imperfections, inequality has a negative effect on human capital accumulation;
-
-
-H3: Given a similar level of inequality, the degree of credit market imperfection has a negative impact on the rate of human capital accumulation.
+> H1: Inefficient credit markets strengthen the negative relationship between inequality and human capital accumulation;
+>
+> H2: In the presence of similar degrees of credit market imperfections, inequality has a negative effect on human capital  >accumulation;
+>
+>H3: Given a similar level of inequality, the degree of credit market imperfection has a negative impact on the rate of human >capital accumulation.
 
 
 To test these hypotheses, I adopt an interaction-term-based statistical specification similar to the one proposed by Perotti (1994). The key difference is that this paper uses a country-fixed effects regression model. Such research design helps to control for unobserved country-level differences, which may affect the independent variable. This helps to minimise the possibility of omitted variable bias in the results. The exact model specification is the following:

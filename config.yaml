@@ -43,13 +43,13 @@ params:
     social:
       - icon: fa-twitter
         label: Twitter
-        url: https://www.twitter.com
+        url: https://twitter.com/samon_sanchuli
       - icon: fa-facebook
         label: Facebook
-        url: https://www.facebook.com
-      - icon: fa-instagram
-        label: Instagram
-        url: https://www.instagram.com
+        url: https://www.facebook.com/somon.sanchooli
+  #    - icon: fa-instagram
+  #      label: Instagram
+  #      url: https://www.instagram.com
       - icon: fa-github
         label: GitHub
         url: https://github.com/samon-sanchuli/my_website
@@ -84,7 +84,7 @@ params:
         subtitle: My most recent CV
         title: Resume
         url: blogs/resume
-      - image: pic02.jpg
+      - image: 
         subtitle: This is the first R project that I undertook
         title: First R Project
         url: blogs/first_project
@@ -100,7 +100,7 @@ params:
         subtitle: This project investigates the determinants of Airbnb prices in Shanghai
         title: Shanghai Airbnb Project
         url: blogs/airbnb
-      - image: pic06.jpg
+      - image: 
         subtitle: Investigating Inflation
         title: Consumer Price Index
         url: blogs/consumer

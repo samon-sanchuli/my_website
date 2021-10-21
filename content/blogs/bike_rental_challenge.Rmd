@@ -3,13 +3,18 @@ categories:
 - ""    #the front matter should be like the one found in, e.g., blog2.md. It cannot be like the normal Rmd we used
 - ""
 date: "2021-09-30"
-description: This paper investigates the relationship between inequality, credit markets and human capital accumulation. The theory suggests that inequality negatively impacts educational attainment through imperfect credit markets. Based on a panel analysis of 217 countries for the years 1965-2019, this study finds evidence in support of this theory.
+description: An investingation of TFL bike rental patterns. 
 draft: false
 image: tfl_bikes.jpg
 keywords: ""
 slug: bike_challenge
 title: Patters in TFL Bike Rentals
 ---
+
+#Summary
+
+> This project investigates the patterns behind TFL bike rentals. We look at bike rental data from 2016 and observe how it 
+> varies year by year. The most interesting patterns emerge during the pandemic. The data shows that there were >significatnly > less bike hires during the pandemic. It also shows that there are less extreme values in the data >distribution. The last >graphs shows bike rentals againts the same period last year. 
 
 
 ```{r, setup, include=FALSE}
@@ -78,6 +83,8 @@ knitr::include_graphics(here::here("images", "tfl_distributions_monthly.png"), e
 ```
 
 Look at May and Jun and compare 2020 with the previous years. What's happening?
+
+
 >The dataset in 2020 has a smaller kurtosis compared to previous years. The kurtosis reveals a distribution with flat tails. The flat tails indicate the small outliers in a distribution. In this case, the numbers of bike hires per month experienced less extreme cases, and the numbers are less than that compared to previous years. This can be explained by the qurantine policies introduced during Covid periods. 
 
 However, the challenge I want you to work on is to reproduce the following two graphs.
@@ -149,10 +156,3 @@ ggplot(tfl_percent_change1, aes(x=week, group=1))+
 
 For both of these graphs, you have to calculate the expected number of rentals per week or month between 2016-2019 and then, see how each week/month of 2020-2021 compares to the expected rentals. Think of the calculation `excess_rentals = actual_rentals - expected_rentals`. 
 
-Should you use the mean or the median to calculate your expected rentals? Why?
-
-In creating your plots, you may find these links useful:
-
-- https://ggplot2.tidyverse.org/reference/geom_ribbon.html
-- https://ggplot2.tidyverse.org/reference/geom_tile.html 
-- https://ggplot2.tidyverse.org/reference/geom_rug.html

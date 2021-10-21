@@ -5,7 +5,7 @@ categories:
 date: "2021-09-30"
 description: This is my first R Project # the title that will show up once someone gets to this page
 draft: false
-image: first_project.jpeg # save picture in \static\img\blogs. Acceptable formats= jpg, jpeg, or png . Your iPhone pics wont work
+image: ashgabat.jpeg # save picture in \static\img\blogs. Acceptable formats= jpg, jpeg, or png . Your iPhone pics wont work
 
 keywords: ""
 slug: first_project # slug is the shorthand URL address... no spaces plz
@@ -22,19 +22,17 @@ library(janitor)
 
 # My Autobiography
 
-My name is *Samon Sanchuli* and I am from Turkmenistan. I was born on October 16th 1998 in Kazakhstan. I lived there untill I was 3 years old and them my parents moved to Turkmenistan.
+My name is *Samon Sanchuli* and I am from Turkmenistan. I was born on October 16th 1998 in Kazakhstan. I lived there untill I was 3 years old and then my parents moved to Turkmenistan.
 
-Turkmenistan is a very strange place. Majority of buildings in the capital city - *Ashgabat* - are covered in marble. As a result, each building is blindingly white.
-
-![The City of Ashgabat](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.toursbylocals.com%2FAshgabat-Tours&psig=AOvVaw0ucjIMZ5RLS9Hp0XFRFKbz&ust=1632180407918000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCOjSj_6XjPMCFQAAAAAdAAAAABAJ)
+Turkmenistan is a very strange place. Majority of buildings in the capital city - *Ashgabat* - are covered in marble. As a result, each building is blindingly white (see the picture above)!
 
 Turkmenistan is famous for 3 following things:
 
 1. [Ahal Teke Horses](https://en.wikipedia.org/wiki/Akhal-Teke)
 
-2. Turmenistani Carpets
+2. [Turmenistani Carpets](https://turkmen-carpets.com/)
 
-3. Alabai Sheppard Dogs
+3. [Alabai Sheppard Dogs](https://www.reddit.com/r/rarepuppers/comments/ns6net/meet_the_giant_alabai_dog/)
 
 I hope you found this autobiography interesting.
 
@@ -51,7 +49,7 @@ head(gapminder, 20) # look at the first 20 rows of the dataframe
 
 ```
 
-Your task is to produce two graphs of how life expectancy has changed over the years for the `country` and the `continent` you come from.
+My is to produce two graphs of how life expectancy has changed over the years for the `country` and the `continent` you come from.
 
 I have created the `country_data` and `continent_data` with the code below.
 
@@ -107,11 +105,7 @@ theme(legend.position="none") + #remove all legends
 NULL
 ```
 
-Given these trends, what can you say about life expectancy since 1952? Again, don't just say what's happening in the graph. Tell some sort of story and speculate about the differences in the patterns.
-
-> Type your answer after this blockquote.
-
-**Life expectancy has clearly improved since 1952.
+**Given these trends, Life expectancy has clearly improved since 1952**
 
 # Task 3: Brexit vote analysis
 
@@ -179,11 +173,6 @@ ggplot(brexit_results, aes(x = born_in_uk, y = leave_share)) +
   NULL
 ```
 
-You have the code for the plots, I would like you to revisit all of them and use the `labs()` function to add an informative title, subtitle, and axes titles to all plots.
-
-What can you say about the relationship shown above? Again, don't just say what's happening in the graph. Tell some sort of story and speculate about the differences in the patterns.
-
-> Type your answer after, and outside, this blockquote.
 
 **The analysis above clearly shows that the decision by the UK people to leave EU could have been partially dirven by the fear of further influx of foreign natinonals**
 
@@ -204,6 +193,7 @@ animal_rescue <- read_csv(url,
 
 glimpse(animal_rescue)
 ```
+
 One of the more useful things one can do with any data set is quick counts, namely to see how many observations fall within one category. For instance, if we wanted to count the number of incidents by year, we would either use `group_by()... summarise()` or, simply [`count()`](https://dplyr.tidyverse.org/reference/count.html)
 
 ```{r, instances_by_calendar_year}
@@ -245,9 +235,8 @@ animal_rescue %>%
 
 ```
 
-Do you see anything strange in these tables? 
 
-*There are a lot of unknown animals*
+**A strange thing is that there are a lot of unknown animals ** 
 
 Finally, let us have a loot at the notional cost for rescuing each of these animals. As the LFB says,
 

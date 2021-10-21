@@ -5,7 +5,7 @@ categories:
 date: "2021-09-30"
 description: This is my first R Project # the title that will show up once someone gets to this page
 draft: false
-image: first_project.jpeg # save picture in \static\img\blogs. Acceptable formats= jpg, jpeg, or png . Your iPhone pics wont work
+image: ashgabat.jpeg # save picture in \static\img\blogs. Acceptable formats= jpg, jpeg, or png . Your iPhone pics wont work
 
 keywords: ""
 slug: first_project # slug is the shorthand URL address... no spaces plz
@@ -17,17 +17,13 @@ title: First R Project
 
 <div id="my-autobiography" class="section level1">
 <h1>My Autobiography</h1>
-<p>My name is <em>Samon Sanchuli</em> and I am from Turkmenistan. I was born on October 16th 1998 in Kazakhstan. I lived there untill I was 3 years old and them my parents moved to Turkmenistan.</p>
-<p>Turkmenistan is a very strange place. Majority of buildings in the capital city - <em>Ashgabat</em> - are covered in marble. As a result, each building is blindingly white.</p>
-<div class="figure">
-<img src="https://www.google.com/url?sa=i&amp;url=https%3A%2F%2Fwww.toursbylocals.com%2FAshgabat-Tours&amp;psig=AOvVaw0ucjIMZ5RLS9Hp0XFRFKbz&amp;ust=1632180407918000&amp;source=images&amp;cd=vfe&amp;ved=0CAsQjRxqFwoTCOjSj_6XjPMCFQAAAAAdAAAAABAJ" alt="" />
-<p class="caption">The City of Ashgabat</p>
-</div>
+<p>My name is <em>Samon Sanchuli</em> and I am from Turkmenistan. I was born on October 16th 1998 in Kazakhstan. I lived there untill I was 3 years old and then my parents moved to Turkmenistan.</p>
+<p>Turkmenistan is a very strange place. Majority of buildings in the capital city - <em>Ashgabat</em> - are covered in marble. As a result, each building is blindingly white (see the picture above)!</p>
 <p>Turkmenistan is famous for 3 following things:</p>
 <ol style="list-style-type: decimal">
 <li><p><a href="https://en.wikipedia.org/wiki/Akhal-Teke">Ahal Teke Horses</a></p></li>
-<li><p>Turmenistani Carpets</p></li>
-<li><p>Alabai Sheppard Dogs</p></li>
+<li><p><a href="https://turkmen-carpets.com/">Turmenistani Carpets</a></p></li>
+<li><p><a href="https://www.reddit.com/r/rarepuppers/comments/ns6net/meet_the_giant_alabai_dog/">Alabai Sheppard Dogs</a></p></li>
 </ol>
 <p>I hope you found this autobiography interesting.</p>
 </div>
@@ -67,7 +63,7 @@ title: First R Project
 ## 18 Albania     Europe     1977    68.9  2509048     3533.
 ## 19 Albania     Europe     1982    70.4  2780097     3631.
 ## 20 Albania     Europe     1987    72    3075321     3739.</code></pre>
-<p>Your task is to produce two graphs of how life expectancy has changed over the years for the <code>country</code> and the <code>continent</code> you come from.</p>
+<p>My is to produce two graphs of how life expectancy has changed over the years for the <code>country</code> and the <code>continent</code> you come from.</p>
 <p>I have created the <code>country_data</code> and <code>continent_data</code> with the code below.</p>
 <pre class="r"><code>country_data &lt;- gapminder %&gt;% 
             filter(country == &quot;Iran&quot;) # Unfourtunately, Turkmenistan is not in the dataset
@@ -110,11 +106,7 @@ theme(legend.position=&quot;none&quot;) + #remove all legends
 NULL</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/blogs/Samon_Sanchuli_files/figure-html/lifeExp_facet_by_continent-1.png" width="672" /></p>
-<p>Given these trends, what can you say about life expectancy since 1952? Again, don’t just say what’s happening in the graph. Tell some sort of story and speculate about the differences in the patterns.</p>
-<blockquote>
-<p>Type your answer after this blockquote.</p>
-</blockquote>
-<p>**Life expectancy has clearly improved since 1952.</p>
+<p><strong>Given these trends, Life expectancy has clearly improved since 1952</strong></p>
 </div>
 <div id="task-3-brexit-vote-analysis" class="section level1">
 <h1>Task 3: Brexit vote analysis</h1>
@@ -175,11 +167,6 @@ ggplot(brexit_results, aes(x = leave_share)) +
   NULL</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/blogs/Samon_Sanchuli_files/figure-html/brexit_immigration_plot-1.png" width="672" /></p>
-<p>You have the code for the plots, I would like you to revisit all of them and use the <code>labs()</code> function to add an informative title, subtitle, and axes titles to all plots.</p>
-<p>What can you say about the relationship shown above? Again, don’t just say what’s happening in the graph. Tell some sort of story and speculate about the differences in the patterns.</p>
-<blockquote>
-<p>Type your answer after, and outside, this blockquote.</p>
-</blockquote>
 <p><strong>The analysis above clearly shows that the decision by the UK people to leave EU could have been partially dirven by the fear of further influx of foreign natinonals</strong></p>
 </div>
 <div id="task-4-animal-rescue-incidents-attended-by-the-london-fire-brigade" class="section level1">
@@ -313,8 +300,7 @@ glimpse(animal_rescue)</code></pre>
 ##  9 Squirrel                            71    0.89
 ## 10 Unknown - Heavy Livestock Animal    50    0.63
 ## # … with 18 more rows</code></pre>
-<p>Do you see anything strange in these tables?</p>
-<p><em>There are a lot of unknown animals</em></p>
+<p><strong>A strange thing is that there are a lot of unknown animals </strong></p>
 <p>Finally, let us have a loot at the notional cost for rescuing each of these animals. As the LFB says,</p>
 <blockquote>
 <p>Please note that any cost included is a notional cost calculated based on the length of time rounded up to the nearest hour spent by Pump, Aerial and FRU appliances at the incident and charged at the current Brigade hourly rate.</p>
