@@ -80,15 +80,15 @@ params:
   tiles:
     enable: yes
     showcase:
-      - image: resume_picture.jpg
+      - image: resume_picture.jpeg
         subtitle: My most recent CV
         title: Resume
         url: blogs/resume
-      - image: 
+      - image: ashgabat_f.jpeg
         subtitle: This is the first R project that I undertook
         title: First R Project
         url: blogs/first_project
-      - image: tfl_bikes.jpg
+      - image: boris_bikes.jpeg
         subtitle: This project investigates patterns behind TFL bike rentals
         title: Bike Rentals Project
         url: blogs/bike_challenge
@@ -96,11 +96,11 @@ params:
         subtitle: Inequality and Human Capital Accumulation
         title: Undergraduate Dissertation 
         url: blogs/dissertation
-      - image: 
+      - image: airbnb.jpeg
         subtitle: This project investigates the determinants of Airbnb prices in Shanghai
         title: Shanghai Airbnb Project
         url: blogs/airbnb
-      - image: 
+      - image: inflation.jpg
         subtitle: Investigating Inflation
         title: Consumer Price Index
         url: blogs/consumer
